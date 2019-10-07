@@ -10,6 +10,7 @@ module.exports = () => {
  
  consign()
    .include('controllers')
+   .include('infraestrutura')
    .into(app)
  
  return app

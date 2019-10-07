@@ -36,21 +36,29 @@ class Atendimento {
                 if(erro) {
                     res.status(400).json(erro)
                 } else {
-                    res.status(201).json(atendimento)
+                    const id = resultados.insertedId
+                    const memcachedClient = app.infraestrutura.cache()
+
+                    memcachedClient.set(`atendimento-${id}`, {id, ...atendimento}, 60000, (erro) => {
+                        console.log(`Novo atendimento adicionado ao cache: atendimento-${id}`)
+                    })
+                    res.status(201).json({id, ...atendimento})
                 }
             })
         }
        
     }
 
-    lista(res) {
+    lista(res, cliente) {
         const sql = 'SELECT * FROM Atendimentos'
 
         conexao.query(sql, (erro, resultados) => {
             if(erro) {
                 res.status(400).json(erro)
             } else {
-                res.status(200).json(resultados)
+                const atendimentos = resultados.map( resultado => ({ ...resultado, cliente }))
+
+                res.status(200).json(atendimentos)
             }
         })
     }
