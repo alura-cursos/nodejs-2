@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js",
+    "clientes": "nodemon servicos/clientes-api.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -26,6 +27,7 @@
     "mysql": "^2.17.1"
   },
   "devDependencies": {
+    "faker": "^4.1.0",
     "nodemon": "^1.19.2"
   }
 }

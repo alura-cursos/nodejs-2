@@ -12,19 +12,7 @@ module.exports = app => {
     app.get('/atendimentos/:id', (req, res) => {
         const id = parseInt(req.params.id)
         
-        const memcachedClient = app.infraestrutura.cache()
-        
-        memcachedClient.get(`atendimento-${id}`, (erro, data) => {
-            if (err || !data) {
-                console.log('MISS - chave não encontrada no cache');
-                
-                Atendimento.buscaPorId(id, res)
-            } else {
-                console.log(`HIT - valor: ${data}`);
-                res.status(200).json(data)
-            }
-        })
-        
+        Atendimento.buscaPorId(id, res)
     })
 
     app.post('/atendimentos', (req, res) => {

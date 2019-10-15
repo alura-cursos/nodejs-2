@@ -1,5 +1,5 @@
 const moment = require('moment')
-const conexao = require('../infraestrutura/conexao')
+const conexao = require('../infraestrutura/database/conexao')
 
 class Atendimento {
     adiciona(atendimento, res) {
@@ -37,11 +37,6 @@ class Atendimento {
                     res.status(400).json(erro)
                 } else {
                     const id = resultados.insertedId
-                    const memcachedClient = app.infraestrutura.cache()
-
-                    memcachedClient.set(`atendimento-${id}`, {id, ...atendimento}, 60000, (erro) => {
-                        console.log(`Novo atendimento adicionado ao cache: atendimento-${id}`)
-                    })
                     res.status(201).json({id, ...atendimento})
                 }
             })
