@@ -10,8 +10,13 @@ class Atendimento {
 
   lista() {
     const sql = 'SELECT * FROM Atendimentos'
-    console.log(Cliente.buscaPorNome('nome'))
-    return query(sql) 
+    return query(sql).then(atendimentos => {
+      return atendimentos.map(async atendimento => {
+        const cliente = await Cliente.buscaPorCpf(atendimento.cliente)
+        const novoAtendimento = { ...atendimento, cliente }
+        return novoAtendimento
+      })
+    })
   }
 
   buscaPorId(id) {
