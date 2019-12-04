@@ -1,5 +1,9 @@
 const fs = require('fs')
 
-fs.createReadStream('./assets/salsicha.jpg')
-    .pipe(fs.createWriteStream('./assets/salsicha-stream.jpg'))
-    .on('finish', () => console.log('Imagem foi escrita com sucesso'))
+const codificaBase64 = caminhoDoArquivo => {
+    const bitmap = fs.readFileSync(caminhoDoArquivo)
+
+    return new Buffer(bitmap).toString('base64')
+}
+
+module.exports = codificaBase64
